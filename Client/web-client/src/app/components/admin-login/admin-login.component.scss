@@ -1,0 +1,45 @@
+.login-page {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 48px 20px;
+    background: #f4f6fa;
+}
+
+mat-card {
+    max-width: 440px;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+
+mat-card-header {
+    padding: 24px 24px 0;
+}
+
+mat-card-subtitle {
+    margin-top: 8px;
+}
+
+mat-card-content {
+    padding: 24px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+button[type='submit'] {
+    min-height: 48px;
+}
+
+.error {
+    padding: 12px;
+    color: #8d2020;
+    background: #fff0f0;
+    border-radius: 8px;
+}
+
+a {
+    margin-top: 16px;
+}

@@ -14,11 +14,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { AdminMoodsComponent } from './components/admin-moods/admin-moods.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MoodFormComponent
+    MoodFormComponent,
+    AdminLoginComponent,
+    AdminMoodsComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
   providers: [
     provideHttpClient(),

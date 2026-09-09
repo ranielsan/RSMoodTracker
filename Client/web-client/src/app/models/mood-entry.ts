@@ -15,3 +15,11 @@ export interface CreateMoodEntryResponse {
     entryId: number;
     message: string;
 }
+
+export interface MoodEntryResponse {
+    id: number;
+    employeeIdentifier: string;
+    rating: MoodRating;
+    comment: string | null;
+    createdAtUtc: string;
+}

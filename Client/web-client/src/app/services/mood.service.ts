@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
     CreateMoodEntryRequest,
-    CreateMoodEntryResponse
+    CreateMoodEntryResponse,
+    MoodEntryResponse
 } from '../models/mood-entry';
 
 @Injectable({
@@ -22,5 +23,14 @@ export class MoodService {
             this.endpoint,
             request
         );
+    }
+
+    getAll(): Observable<MoodEntryResponse[]> {
+        const url =
+            `${environment.apiUrl.replace(/\/$/, '')}/api/admin/moods`;
+
+        return this.http.get<MoodEntryResponse[]>(url, {
+            withCredentials: true
+        });
     }
 }

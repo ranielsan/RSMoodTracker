@@ -1,26 +1,19 @@
-import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { provideRouter, RouterOutlet } from '@angular/router';
 
 import { AppComponent } from './app.component';
-
-@Component({
-  selector: 'app-mood-form',
-  template: ''
-})
-class MoodFormStubComponent { }
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        MoodFormStubComponent
-      ]
+      declarations: [AppComponent],
+      imports: [RouterOutlet],
+      providers: [provideRouter([])]
     }).compileComponents();
   });
 
-  it('should display the mood form', () => {
+  it('should provide an outlet for routed pages', () => {
     // Arrange
     const fixture = TestBed.createComponent(AppComponent);
 
@@ -29,7 +22,7 @@ describe('AppComponent', () => {
 
     // Assert
     expect(
-      fixture.debugElement.query(By.directive(MoodFormStubComponent))
+      fixture.debugElement.query(By.directive(RouterOutlet))
     ).not.toBeNull();
   });
 });

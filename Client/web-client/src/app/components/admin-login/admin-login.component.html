@@ -1,0 +1,37 @@
+<main class="login-page">
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Admin sign in</mat-card-title>
+            <mat-card-subtitle>
+                Sign in to view your team’s mood entries.
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username" autocomplete="username" maxlength="256" required />
+                    <mat-error>Enter your username.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password" autocomplete="current-password"
+                        required />
+                    <mat-error>Enter your password.</mat-error>
+                </mat-form-field>
+
+                <button mat-flat-button type="submit" [disabled]="isSubmitting">
+                    {{ isSubmitting ? 'Signing in…' : 'Sign in' }}
+                </button>
+            </form>
+
+            <p *ngIf="errorMessage" class="error" role="alert">
+                {{ errorMessage }}
+            </p>
+
+            <a mat-button routerLink="/">Back to mood check-in</a>
+        </mat-card-content>
+    </mat-card>
+</main>
