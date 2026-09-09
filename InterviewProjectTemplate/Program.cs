@@ -1,5 +1,6 @@
 
 using InterviewProjectTemplate.Data;
+using InterviewProjectTemplate.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace InterviewProjectTemplate
@@ -27,6 +28,9 @@ namespace InterviewProjectTemplate
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IMoodService, MoodService>();
+            builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 
             var app = builder.Build();
 
