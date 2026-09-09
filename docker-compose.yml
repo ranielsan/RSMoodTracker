@@ -14,7 +14,8 @@ services:
       - "8080:8080"  # Expose port 8080, the http port
       - "8081:8081"  # Expose port 8081, the https port
     depends_on:
-      - mysql-db    # Ensure MySQL service is up before starting the ASP.NET Core app
+      mysql-db: # Ensure MySQL service is up before starting the ASP.NET Core app
+        condition: service_healthy    
     networks:
       - aspnetcore-mysql-network
 
@@ -45,6 +46,12 @@ services:
       - "3306:3306"   # Expose MySQL port 3306
     networks:
       - aspnetcore-mysql-network
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$${MYSQL_PASSWORD}\" mysql --protocol=TCP -h 127.0.0.1 -u \"$${MYSQL_USER}\" \"$${MYSQL_DATABASE}\" -e 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
 
 # Define the volume for MySQL data persistence
 volumes:

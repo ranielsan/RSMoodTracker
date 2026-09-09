@@ -1,14 +1,22 @@
 
+using InterviewProjectTemplate.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace InterviewProjectTemplate
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var connectionString = builder.Configuration
+                .GetConnectionString("MySQLConnectionString")
+                ?? throw new InvalidOperationException(
+                "MySQLConnectionString is not configured.");
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseMySQL(connectionString));
             // Add services to the container.
             builder.Services.AddCors(o => o.AddDefaultPolicy(builder =>
                 builder.AllowAnyOrigin()
@@ -21,6 +29,14 @@ namespace InterviewProjectTemplate
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            await using (var scope = app.Services.CreateAsyncScope())
+            {
+                var context = scope.ServiceProvider
+                    .GetRequiredService<AppDbContext>();
+
+                await DatabaseInitializer.InitializeAsync(context);
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -37,7 +53,7 @@ namespace InterviewProjectTemplate
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
