@@ -122,6 +122,8 @@ describe('MoodFormComponent', () => {
 
     const message = fixture.nativeElement.querySelector('[role="status"]');
     expect(message?.textContent).toContain('Your mood has been recorded.');
+    expect(fixture.nativeElement.querySelector('mat-error')).toBeNull();
+    expect(component.form.controls.employeeIdentifier.hasError('required')).toBeTrue();
   });
 
   it('should submit without an optional comment', () => {

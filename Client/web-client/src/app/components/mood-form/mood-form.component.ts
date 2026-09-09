@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  FormGroupDirective,
   Validators
 } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -16,6 +17,9 @@ import { MoodService } from '../../services/mood.service';
   styleUrls: ['./mood-form.component.scss']
 })
 export class MoodFormComponent {
+  @ViewChild(FormGroupDirective)
+  private formDirective!: FormGroupDirective;
+
   readonly moodOptions = [
     { value: MoodRating.NotGoodAtAll, label: 'Not good at all' },
     { value: MoodRating.ABitMeh, label: 'A bit “meh”' },
@@ -83,7 +87,7 @@ export class MoodFormComponent {
       .subscribe({
         next: response => {
           this.successMessage = response.message;
-          this.form.reset();
+          this.formDirective.resetForm();
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 0) {
