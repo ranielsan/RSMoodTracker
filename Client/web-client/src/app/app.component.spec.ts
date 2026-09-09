@@ -1,35 +1,35 @@
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
+
 import { AppComponent } from './app.component';
+
+@Component({
+  selector: 'app-mood-form',
+  template: ''
+})
+class MoodFormStubComponent { }
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
       declarations: [
-        AppComponent
-      ],
+        AppComponent,
+        MoodFormStubComponent
+      ]
     }).compileComponents();
   });
 
-  it('should create the app', () => {
+  it('should display the mood form', () => {
+    // Arrange
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
 
-  it(`should have as title 'web-client'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('web-client');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    // Act
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('web-client app is running!');
+
+    // Assert
+    expect(
+      fixture.debugElement.query(By.directive(MoodFormStubComponent))
+    ).not.toBeNull();
   });
 });

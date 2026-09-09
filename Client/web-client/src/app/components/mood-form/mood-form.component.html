@@ -1,0 +1,73 @@
+<main class="mood-page">
+    <mat-card class="mood-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>
+                How are you feeling today?
+            </mat-card-title>
+            <mat-card-subtitle>
+                Take a moment to check in with yourself.
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p class="intro">
+                Choose one mood each day. Your response and optional comment
+                can be viewed by an administrator.
+            </p>
+
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Employee ID</mat-label>
+                    <input matInput formControlName="employeeIdentifier" maxlength="50" required />
+                    <mat-error *ngIf="form.controls.employeeIdentifier.invalid">
+                        Enter an employee ID of up to 50 characters.
+                    </mat-error>
+                </mat-form-field>
+
+                <section class="mood-selection">
+                    <h2 id="mood-label">Today, I’m feeling…</h2>
+
+                    <mat-radio-group formControlName="rating" aria-labelledby="mood-label" aria-describedby="mood-error"
+                        class="mood-options">
+                        <mat-radio-button *ngFor="let option of moodOptions" [value]="option.value" class="mood-option"
+                            [class.selected]="form.controls.rating.value === option.value">
+                            {{ option.label }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+
+                    <p id="mood-error" class="validation-error" *ngIf="form.controls.rating.touched &&
+                   form.controls.rating.invalid">
+                        Select a mood.
+                    </p>
+                </section>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Comment (optional)</mat-label>
+                    <textarea matInput formControlName="comment" maxlength="1000" rows="4"></textarea>
+                    <mat-hint align="end">
+                        {{ form.controls.comment.value.length }}/1000
+                    </mat-hint>
+                    <mat-error>
+                        Keep your comment within 1,000 characters.
+                    </mat-error>
+                </mat-form-field>
+
+                <button mat-flat-button type="submit" class="submit-button" [disabled]="isSubmitting">
+                    {{ isSubmitting ? 'Submitting…' : 'Submit mood' }}
+                </button>
+            </form>
+
+            <p *ngIf="successMessage" class="feedback success" role="status">
+                {{ successMessage }}
+            </p>
+
+            <p *ngIf="errorMessage" class="feedback error" role="alert">
+                {{ errorMessage }}
+            </p>
+
+            <p class="daily-note">
+                One submission per employee per day. A new day starts at midnight UTC.
+            </p>
+        </mat-card-content>
+    </mat-card>
+</main>
