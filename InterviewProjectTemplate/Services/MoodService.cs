@@ -100,5 +100,19 @@ namespace InterviewProjectTemplate.Services
 
             return new(CreateMoodEntryStatus.Success, entry.Id);
         }
+
+        public async Task<IReadOnlyList<MoodEntryResponse>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.MoodEntries
+                .OrderByDescending(entry => entry.CreatedAtUtc)
+                .ThenByDescending(entry => entry.Id)
+                .Select(entry => new MoodEntryResponse(
+                    entry.Id,
+                    entry.Employee.EmployeeIdentifier,
+                    entry.Rating,
+                    entry.Comment,
+                    entry.CreatedAtUtc))
+                .ToListAsync(cancellationToken);
+        }
     }
 }

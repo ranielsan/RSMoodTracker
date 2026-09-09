@@ -10,6 +10,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__MySQLConnectionString=Server=mysql-db;Port=3306;Database=moodtrackerdb;Uid=app;Pwd=password
+      - AdminSeed__Username=admin
+      - AdminSeed__Password=RSMoodTracker!2026
     ports:
       - "8080:8080"  # Expose port 8080, the http port
       - "8081:8081"  # Expose port 8081, the https port
