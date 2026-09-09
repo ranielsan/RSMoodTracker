@@ -16,6 +16,7 @@ RUN npm run build -- --configuration production
 FROM nginx:alpine
 
 # Copy the client files to the default public location for nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist/web-client/browser/ /usr/share/nginx/html/
 
 # Nginx will serve the app on port 80 by default.
