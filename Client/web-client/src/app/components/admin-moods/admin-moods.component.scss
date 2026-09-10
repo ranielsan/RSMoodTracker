@@ -65,3 +65,18 @@ a {
         flex-direction: column;
     }
 }
+.filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; padding: 20px; background: #fff; border: 1px solid #dce2eb; border-radius: 16px; }
+.filters mat-form-field { flex: 1 1 180px; }
+.summary-note { color: #505866; font-size: 13px; margin: 24px 0 12px; }
+.summary-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
+.summary-grid strong { display: block; font-size: 32px; margin: 16px 0; }
+.summary-grid span { display: block; min-height: 40px; }
+.summary-grid small { display: block; margin-top: 10px; }
+.total-card { background: #e9efff; }
+.mood-badge { display: inline-block; border-radius: 20px; padding: 6px 12px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+.mood-1 { background: #fff0f0; color: #852929; }
+.mood-2 { background: #fff6df; color: #71500b; }
+.mood-3 { background: #eaf3ff; color: #24548a; }
+.mood-4 { background: #e7f5ed; color: #236341; }
+@media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .total-card { grid-column: 1 / -1; } }
+@media (max-width: 440px) { .summary-grid { grid-template-columns: 1fr; } .filters mat-form-field { width: 100%; } }

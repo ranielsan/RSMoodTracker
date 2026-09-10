@@ -16,6 +16,36 @@
         </div>
     </header>
 
+    <form class="filters" [formGroup]="filters" (ngSubmit)="applyFilters()">
+        <mat-form-field appearance="outline"><mat-label>From (UTC)</mat-label><input matInput [matDatepicker]="fromPicker" formControlName="from" />
+            <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+            <mat-error>Enter a valid date.</mat-error></mat-form-field>
+        <mat-form-field appearance="outline"><mat-label>To (UTC)</mat-label><input matInput [matDatepicker]="toPicker" formControlName="to" />
+            <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+            <mat-error>Enter a valid date.</mat-error></mat-form-field>
+        <mat-form-field appearance="outline"><mat-label>Mood</mat-label>
+            <mat-select formControlName="rating"><mat-option [value]="null">All moods</mat-option>
+                <mat-option *ngFor="let rating of ratings" [value]="rating">{{ getMoodLabel(rating) }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button type="submit" [disabled]="isLoading || isLoggingOut">Apply filters</button>
+        <button mat-button type="button" (click)="clearFilters()" [disabled]="isLoading || isLoggingOut">Clear</button>
+    </form>
+    <p *ngIf="filterError" class="error" role="alert">{{ filterError }}</p>
+    <section *ngIf="!isLoading && statistics.length" aria-label="Mood summary">
+        <p class="summary-note">Summary for applied filters · Percentages represent submissions, not unique employees. Rounded to one decimal place.</p>
+        <div class="summary-grid">
+            <mat-card appearance="outlined" class="total-card"><mat-card-content><span>Total submissions</span><strong>{{ totalCount | number }}</strong></mat-card-content></mat-card>
+            <mat-card appearance="outlined" *ngFor="let item of statistics" [class]="'mood-' + item.rating">
+                <mat-card-content><span>{{ getMoodLabel(item.rating) }}</span><strong>{{ item.percentage | number:'1.0-1' }}%</strong>
+                    <mat-progress-bar mode="determinate" [value]="item.percentage" [attr.aria-label]="getMoodLabel(item.rating) + ' percentage'"></mat-progress-bar>
+                    <small>{{ item.count | number }} submissions</small>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </section>
     <p *ngIf="isLoading" role="status">Loading mood entries…</p>
     <p *ngIf="errorMessage" class="error" role="alert">
         {{ errorMessage }}
@@ -24,9 +54,10 @@
     <mat-card appearance="outlined">
         <mat-card-content>
             <p *ngIf="!isLoading && !errorMessage && entries.length === 0" class="empty-state" role="status">
-                No mood entries yet.
+                No mood entries match your filters.
             </p>
 
+            <h2>{{ totalCount | number }} matching submissions</h2>
             <div *ngIf="entries.length > 0" class="table-container" role="region" aria-label="Team mood entries"
                 tabindex="0">
                 <table mat-table [dataSource]="entries" aria-label="Mood entries, newest first">
@@ -40,7 +71,7 @@
                     <ng-container matColumnDef="mood">
                         <th mat-header-cell *matHeaderCellDef>Mood</th>
                         <td mat-cell *matCellDef="let entry">
-                            {{ getMoodLabel(entry.rating) }}
+                            <span [class]="'mood-badge mood-' + entry.rating">{{ getMoodLabel(entry.rating) }}</span>
                         </td>
                     </ng-container>
 
@@ -65,5 +96,6 @@
         </mat-card-content>
     </mat-card>
 
+    <mat-paginator [length]="totalCount" [pageIndex]="query.page - 1" [pageSize]="query.pageSize" [pageSizeOptions]="[10, 25, 50]" [disabled]="isLoading || isLoggingOut" (page)="changePage($event)" showFirstLastButtons aria-label="Mood entries pages"></mat-paginator>
     <a mat-button routerLink="/">Back to mood check-in</a>
 </main>

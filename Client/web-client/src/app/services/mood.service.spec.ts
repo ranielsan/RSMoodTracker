@@ -108,4 +108,34 @@ describe('MoodService', () => {
         expect(error.status).toBe(409);
         expect(error.error).toEqual(problem);
     });
+
+    it('should send dashboard filters and credentials and return the summary', () => {
+        // Arrange
+        const response = { entries: [], totalCount: 0, page: 2, pageSize: 25, statistics: [] };
+        const next = jasmine.createSpy('next');
+        // Act
+        service.getDashboard({ from: '2026-09-01', to: '2026-09-10', rating: MoodRating.PrettyGood, page: 2, pageSize: 25 }).subscribe(next);
+        // Assert
+        const pending = httpTesting.expectOne(req => req.url.endsWith('/api/admin/moods/dashboard'));
+        expect(pending.request.withCredentials).toBeTrue();
+        expect(pending.request.params.get('from')).toBe('2026-09-01');
+        expect(pending.request.params.get('to')).toBe('2026-09-10');
+        expect(pending.request.params.get('rating')).toBe('3');
+        expect(pending.request.params.get('page')).toBe('2');
+        expect(pending.request.params.get('pageSize')).toBe('25');
+        pending.flush(response);
+        expect(next).toHaveBeenCalledOnceWith(response);
+    });
+
+    it('should omit unset filters and propagate dashboard errors', () => {
+        // Arrange
+        const error = jasmine.createSpy('error');
+        // Act
+        service.getDashboard({ page: 1, pageSize: 10 }).subscribe({ error });
+        // Assert
+        const pending = httpTesting.expectOne(req => req.url.endsWith('/api/admin/moods/dashboard'));
+        expect(pending.request.params.keys()).toEqual(['page', 'pageSize']);
+        pending.flush({}, { status: 401, statusText: 'Unauthorized' });
+        expect(error.calls.mostRecent().args[0].status).toBe(401);
+    });
 });

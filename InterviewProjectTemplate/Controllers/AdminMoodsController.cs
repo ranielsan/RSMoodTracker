@@ -26,5 +26,13 @@ namespace InterviewProjectTemplate.Controllers
 
             return Ok(entries);
         }
+
+        [HttpGet("dashboard")]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public async Task<ActionResult<MoodDashboardResponse>> GetDashboard(
+            [FromQuery] MoodDashboardRequest request, CancellationToken cancellationToken)
+        {
+            return Ok(await _moodService.GetDashboardAsync(request, cancellationToken));
+        }
     }
 }

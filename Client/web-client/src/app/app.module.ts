@@ -1,3 +1,8 @@
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -25,7 +30,7 @@ import { MatTableModule } from '@angular/material/table';
     AdminLoginComponent,
     AdminMoodsComponent
   ],
-  imports: [
+  imports: [MatDatepickerModule, MatNativeDateModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -34,6 +39,7 @@ import { MatTableModule } from '@angular/material/table';
     MatInputModule,
     MatRadioModule,
     MatButtonModule,
+    MatSelectModule, MatPaginatorModule, MatProgressBarModule,
     MatTableModule
   ],
   providers: [
