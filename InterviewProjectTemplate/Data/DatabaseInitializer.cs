@@ -9,7 +9,12 @@ namespace InterviewProjectTemplate.Data
         {
             await context.Database.MigrateAsync();
 
-            string[] demoIdentifiers = ["EMP001", "EMP002", "EMP003"];
+            await SeedEmployeesAsync(context);
+        }
+
+        public static async Task SeedEmployeesAsync(AppDbContext context)
+        {
+            string[] demoIdentifiers = ["EMP001", "EMP002", "EMP003", "EMP004", "EMP005"];
 
             var existingIdentifiers = await context.Employees
                 .Where(e => demoIdentifiers.Contains(e.EmployeeIdentifier))

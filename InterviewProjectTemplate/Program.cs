@@ -97,6 +97,8 @@ namespace InterviewProjectTemplate
                     .GetRequiredService<AppDbContext>();
 
                 await DatabaseInitializer.InitializeAsync(context);
+                await TestMoodSeeder.SeedAsync(context,
+                    app.Configuration.GetValue<bool>("SeedData:IncludeTestMoodEntries"));
 
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 

@@ -57,7 +57,7 @@
                 No mood entries match your filters.
             </p>
 
-            <h2>{{ totalCount | number }} matching submissions</h2>
+            <h3>{{ totalCount | number }} matching submissions</h3>
             <div *ngIf="entries.length > 0" class="table-container" role="region" aria-label="Team mood entries"
                 tabindex="0">
                 <table mat-table [dataSource]="entries" aria-label="Mood entries, newest first">

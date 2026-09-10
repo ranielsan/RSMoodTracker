@@ -9,6 +9,8 @@ services:
     container_name: aspnetcore-container
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      # Enable the fixed September 7–9, 2026 sample entries for this demo.
+      - SeedData__IncludeTestMoodEntries=true
       - ConnectionStrings__MySQLConnectionString=Server=mysql-db;Port=3306;Database=moodtrackerdb;Uid=app;Pwd=password
       - AdminSeed__Username=admin
       - AdminSeed__Password=RSMoodTracker!2026
